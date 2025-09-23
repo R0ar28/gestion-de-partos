@@ -21,7 +21,7 @@ class SendEmail
     public function sendEmail(string $correo, string $subject, string $htmlContents): void
     {
         $email = (new Email())
-            ->from(new Address('notificaciones@canaldenuncias.com', 'Canal Denuncias'))
+            ->from(new Address('soporte@ianalytics.cl', 'Soporte Inalytics'))
             ->to($correo)
             ->subject($subject)
             ->html($htmlContents);
