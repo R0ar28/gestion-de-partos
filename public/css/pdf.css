@@ -1,0 +1,239 @@
+.segments-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.segment-container{
+    margin-top: 10px;
+    width: 90%;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    background-color: #fff;
+    position: relative;
+    font-family: Arial, sans-serif;
+    page-break-inside: avoid;
+}
+
+.segment-name{
+    position: absolute;
+    top: -12px; left: 15px;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.image-preview {
+    width: 250px;
+    height: 250px;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    margin: 0 auto;
+}
+
+.image-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+}
+
+.table-multiple-choice{
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.no-border-table,
+.no-border-table td,
+.no-border-table th {
+    border: 0 !important;
+}
+
+.table-multiple-choice,
+.table-multiple-choice th,
+.table-multiple-choice td {
+    border: 1px solid #ddd !important;
+}
+
+.table-multiple-choice th,
+.table-multiple-choice td {
+    padding: 4px;
+}
+
+.table-multiple-choice thead th{
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.table-multiple-choice tbody tr:nth-child(even){
+    background-color: #f1f1f1;
+}
+
+.table-multiple-choice tbody tr td:first-child{
+    text-align: left;
+    padding-left: 10px;
+}
+
+.table-multiple-choice tbody tr td {
+    height: 30px;
+    border: 1px solid #ddd;
+}
+
+body {
+    background-color: white !important;
+    color: black;
+}
+
+.col {
+    flex: 1 0 0%;
+}
+
+.col-auto {
+    flex: 0 0 auto;
+    width: auto
+}
+
+.segment-columns {
+    width: 100%;
+    border-spacing: 20px;
+}
+
+.column {
+    vertical-align: top;
+    width: 50%;
+}
+
+.details-table{
+    width: 100%;
+}
+
+.detail-item {
+    height: 20px;
+}
+
+.detail-title{
+    width: 50%;
+    font-weight: bold;
+    text-align: left;
+}
+
+.detail-response {
+    width: 60%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.second-table .detail-title {
+    width: 65%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.second-table .detail-response {
+    width: 35%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.bool-response {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.bool-response span {
+    display: inline-block;
+    margin-left: 1px;
+}
+
+.checkbox{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    text-align: center;
+    border-radius: 4px;
+    line-height: 14px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 1px;
+}
+
+.image-table {
+    width: 100%;
+    border-spacing: 20px;
+    page-break-inside: avoid;
+}
+
+.image-cell {
+    width: 50%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.detail-title-image {
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.signature-cell {
+    width: 50%;
+    padding: 10px;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.signature-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.signature-name {
+    text-align: right;
+    font-weight: bold;
+    vertical-align: bottom;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    white-space: nowrap;
+}
+
+.signature-image-cell {
+    text-align: left;
+}
+
+.signature-image {
+    max-height: 100px;
+    width: auto;
+    display: block;
+}
+
+.signature-detail {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.underline {
+    border-top: 1px solid #000;
+    width: 100%;
+    margin-top: 5px;
+}

@@ -1,0 +1,118 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Sidebar a la izquierda */
+.left-sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(34, 45, 51);
+    color: #fff;
+    padding: 0;
+    overflow: auto;
+    transition: transform 0.3s ease;
+    z-index: 999;
+}
+/* Clase para ocultar el sidebar (lo desplaza hacia la izquierda) */
+.left-sidebar.collapsed {
+    transform: translateX(-250px);
+}
+/* Clase para activar el sidebar en móviles */
+.left-sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-item.active .sidebar-link {
+    color: white;
+    border-radius: 4px;
+    background-color: #828282;
+}
+
+.left-sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+.left-sidebar ul li {
+    margin: 10px 0;
+    width: 100%;
+}
+.left-sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: rgb(34, 45, 51);
+    transition: background-color 0.3s;
+}
+.sidebar-custom:hover {
+    background-color: #29322f !important;
+    color: white;
+}
+.custom-dropdown-item {
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    border-radius: 6px;
+}
+.custom-dropdown-item:last-child {
+    border-bottom: none;
+}
+.custom-dropdown-item:hover {
+    background-color: green;
+}
+
+/* Contenido principal usando Flexbox para que el footer quede abajo */
+.main-content {
+    margin-left: 250px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    transition: margin-left 0.3s ease;
+}
+.content {
+    flex: 1;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Botón de toggle para el sidebar (visible solo en pantallas pequeñas) */
+#sidebarToggle {
+    /*position: fixed;*/
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    display: none;
+    background-color: #222d34
+}
+
+/* Media Query: para pantallas menores a 768px */
+@media (max-width: 992px) {
+    /* Por defecto, el sidebar se oculta */
+    .left-sidebar {
+        transform: translateX(-250px);
+        transition: transform 0.3s ease;
+    }
+    /* Cuando tenga la clase "active", se muestra */
+    .left-sidebar.active {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    #sidebarToggle {
+        display: block;
+    }
+}

@@ -1,0 +1,55 @@
+/* General table styling */
+table {
+    width: 100%;
+    caption-side: bottom;
+    border-collapse: collapse;
+
+    border: 1px solid #dce1e5;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    overflow: hidden;
+
+}
+
+
+th {
+    text-align: left;
+    padding: 0.5rem;
+    font-weight: normal;
+}
+.customActions{
+    white-space: nowrap!important;
+    width: 1%!important; 
+    text-align: start!important;
+}
+
+
+td {
+    padding: 0.5rem;
+}
+
+
+tbody tr {
+    height: 30px;
+}
+
+
+.table tbody tr:nth-child(odd) {
+    background-color: #e0e0e0; /* Color para filas impares */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #ffffff; /* Color para filas pares */
+}
+
+.dtable-custom-pdf tbody tr:nth-child(odd) {
+    background-color: #e0e0e0; /* Color para filas impares */
+}
+
+.dtable-custom-pdf tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+
+
+

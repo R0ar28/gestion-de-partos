@@ -1,0 +1,663 @@
+.icon-valid {
+    color: green;
+    display: none;
+    margin-right: 10px;
+}
+
+.icon-invalid {
+    color: red;
+    display: none;
+    margin-right: 10px;
+}
+
+.active-card {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.inactive-card {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+.step {
+    position: relative;
+    padding: 20px;
+    /*margin-bottom: 30px;*/
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #17a2b8;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.step-number {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #17a2b8;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.circle.active {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.circle.inactive {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+.circle i {
+    font-size: 2rem;
+    color: #17a2b8;
+}
+
+.circle.active i {
+    color: #28a745;
+}
+
+.alert-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 1050;
+}
+
+.alert.audit {
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para ajustar el orden */
+    align-items: flex-start; /* Alineación a la izquierda */
+    padding: 1rem;
+    /*background-color: rgba(248, 215, 218, 0.8); /* Color de fondo transparente */
+    border: 1px solid rgba(245, 198, 203, 0.8); /* Borde transparente */
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: opacity 0.15s linear;
+    opacity: 1; /* Añadido para controlar la visibilidad */
+    visibility: visible; /* Añadido para controlar la visibilidad */
+    font-size: 1.2em;
+}
+
+.alert.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.alert-danger .icon { /* Cambiado a rojo */
+    color: #721c24; /* Cambiado a rojo */
+}
+
+.alert .close {
+    align-self: flex-end; /* Alineación a la derecha */
+    cursor: pointer;
+}
+
+.d-flex.align-items-center .btn-link {
+    align-items: center;
+    display: flex;
+}
+
+.cardField{
+    background-color: #eff2f5 !important;
+}
+
+#sortable {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sortable li {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    cursor: move;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+.card-header {
+    background-color: #e9ecef;
+}
+.sortable-list li {
+    margin-bottom: 10px;
+    cursor: move;
+}
+
+.table-success-column {
+    background-color: #89a7bb42 !important; /* Color de fondo verde claro */
+    font-size: medium !important;
+}
+
+.table-internal-title {
+    text-decoration: underline !important;
+}
+
+.table-title {
+    font-weight: bolder !important;
+    font-size: medium !important;
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    #signature-pad {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* For tablets and larger devices */
+@media (min-width: 768px) {
+    #signature-pad {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal-dialog {
+        max-width: 800px; /* Ajusta el tamaño máximo del modal */
+    }
+}
+
+#signatureForm {
+    max-width: 100%;
+}
+
+#imgSignature {
+    border: 1px solid #000000;
+    background-color: #eff2f5;
+    width: 100%;
+    height: 100%
+}
+
+
+.buttonHeader{
+    text-align: end;
+}
+
+.btn-new {
+    background-color: #006db3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-weight: bolder
+}
+
+.btn-new:hover {
+    background-color: rgba(0, 109, 179, 0.75);
+    color: #FFFFFF;
+}
+
+
+.btn-edit {
+    background-color: #1b5a6c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: rgba(27, 90, 108, 0.75);
+    color: #FFFFFF;
+}
+
+.btn-view {
+    background-color: #41acb8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-weight: bolder
+}
+
+.btn-view:hover {
+    background-color: rgba(63, 172, 185, 0.75);
+    color: #FFFFFF;
+}
+
+.btn-delete {
+    background-color: #c0392b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+    background-color: #e57373;
+    color: #FFFFFF;
+}
+
+.btn-logout {
+    background-color: #c0392b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #e57373;
+    color: #FFFFFF;
+}
+
+.btn-return {
+    background-color: #0e6c83;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-return:hover {
+    background-color: rgba(26, 141, 165, 0.75);
+    color: #FFFFFF;
+}
+
+.btn-assign {
+    background-color: #007bc9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-weight: bolder
+}
+
+.btn-assign:hover {
+    background-color: #007bc9;
+    color: #FFFFFF;
+}
+
+.btn-reassign {
+    background-color: #005a94;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-weight: bolder
+}
+
+.btn-reassign:hover {
+    background-color: rgba(0, 47, 77, 0.78);
+    color: #FFFFFF;
+}
+
+.card-info{
+    padding: 24px;
+    border: none
+}
+
+.nav-link{
+    color: #01b9de;
+    font-size: 14px;
+}
+
+.sidebar-nav{
+   /* padding: 14px;*/
+}
+
+.btn-new i,
+.btn-edit i,
+.btn-view i,
+.btn-delete i,
+.btn-return i,
+.btn-change-status i{
+    color: white !important;
+}
+
+.body-center{
+    justify-self: center;
+}
+
+.form-check-input{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.text-align-end{
+    text-align: end;
+}
+
+.text-align-start{
+    text-align: start;
+}
+
+#templateList{
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#mainUserContainer{
+    padding-bottom: 8px;
+}
+
+.table .txtTable{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.justify-end{
+    justify-self: end;
+}
+
+#btnAction {
+    margin-bottom: 4px;
+}
+
+.left-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.help-footer {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: rgb(34, 45, 51);
+}
+
+.logout-footer {
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(34, 45, 51);
+}
+
+
+.floating-help {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222d34;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.floating-help:active {
+    background-color: #29322f;
+}
+
+.help-card {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 14px;
+    border-radius: 4px;
+    min-width: 240px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 14px;
+}
+
+.help-card.show {
+    display: block;
+}
+
+#chat-bot {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+#chatbot-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#chatbot-container {
+    width: 350px;
+    max-height: 60vh;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+#chatbot-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.message.bot {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 5px 10px;
+    max-width: 80%;
+    align-self: flex-start;
+}
+
+.message.user {
+    background-color: #d1e7dd;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 5px 10px;
+    max-width: 80%;
+    align-self: flex-end;
+}
+
+#chatbot-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+}
+
+#chatbot-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    outline: none;
+    border-top: 1px solid #ccc;
+}
+
+#chatbot-input button {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+#chat-messages {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 100px;
+}
+
+.chat-messages div {
+    font-size: 14px;
+}
+
+#chat-bot, #chat-bot * {
+    font-size: 14px;
+}
+
+.image-upload-box {
+    display: block;
+    border: 2px dashed #bbb;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.image-upload-box.dragover {
+    background-color: #dbeafe;
+    border-color: #60a5fa;
+}
+
+.image-preview-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-wrapper {
+    position: relative;
+}
+
+.preview-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.remove-img {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.alert-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 1050;
+}
+
+.alert{
+    font-size: 1.1em;
+}
+
+.btn-change-status {
+    background-color: #01b9de;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-change-status:hover {
+    background-color: rgba(1, 185, 222, 0.55);
+    color: #FFFFFF;
+}
+
+.circle-arrow {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #17a2b8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+#addOptionEdit, #addOptionListEdit,
+#addOption,
+#optionsList{
+    max-height: 350px;
+    overflow-x: scroll;
+}
+
+.detail-description{
+    text-align: justify;
+}
+
+.btn.btn-success{
+    font-size: medium;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.container, .main-wrapper, .content {
+    overflow-x: hidden;
+}
+
+.home-subtitle{
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.home-role{
+    padding-top: 6px;
+    font-size: 16px;
+}

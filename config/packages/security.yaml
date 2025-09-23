@@ -43,63 +43,9 @@ security:
     access_control:
           # Acceso público
           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-          - { path: ^/complaint/\w+/(index|anonymous|form|save)$, roles: PUBLIC_ACCESS }
-          - { path: ^/complaint/complaint/generate/pdf/*, roles: PUBLIC_ACCESS }
-          - { path: ^/complaint/[^/]+/\d+/index$, roles: PUBLIC_ACCESS }
-          - { path: ^/complaint/status/tracking, roles: PUBLIC_ACCESS }
-          - { path: ^/complaint/complaint/action/actions, roles: PUBLIC_ACCESS }
-
-          # Página de dashboard
-          - { path: ^/dashboard, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY, ROLE_SUPERVISOR ] }
-
-          # Página de inicio
-          - { path: ^/home, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY,
-                                         ROLE_SUPERVISOR, ROLE_AUDITOR ] }
-
-          # Cambio y verificación de contraseña
-          - { path: ^/user/user/change-password, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY,
-                                                          ROLE_SUPERVISOR, ROLE_AUDITOR, ROLE_ASSISTANT] }
-          - { path: ^/user/user/check-password, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY,
-                                                          ROLE_SUPERVISOR, ROLE_AUDITOR, ROLE_ASSISTANT ] }
-
-          # Acceso apartado usuarios
-          - { path: ^/user/\d+, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY,
-                                              ROLE_SUPERVISOR, ROLE_AUDITOR, ROLE_ASSISTANT]}
-          - { path: ^/user/new, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY ] }
-          - { path: ^/user/user/change-status/\d+, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY ] }
-          - { path: ^/user/*, roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY ] }
-
-          # Apartado del asistente
-          - { path: ^/assistant/*, roles: ROLE_ASSISTANT }
-
-          # Acceso a templates
-          - { path: ^/template/*, roles: ROLE_ADMIN_FORM }
-          - { path: ^/complaint/\d+/form/preview, roles: ROLE_ADMIN_FORM }
-
-          # Acceso a diccionarios
-          - { path: ^/dictionary-type/\d+/dictionaries, roles: [ ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY, ROLE_SUPERVISOR ] }
-          - { path: ^/dictionaryType/*, roles: [ ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM ] }
-          - { path: ^/dictionary/*, roles: [ ROLE_ADMIN_FORM, ROLE_ADMIN_SYSTEM ] }
-
-          # Acceso apartado de denuncias
-          - { path: ^/complaint/, roles: [ ROLE_SUPERVISOR, ROLE_AUDITOR ] }
-
-          # Acceso a filtros por sections
-          - { path: ^/section/filter/sections, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY, ROLE_SUPERVISOR ] }
-
-          # Ruta creación, edición de sections y asignación de templates en apartado section
-          - { path: ^/section/(new|assign/template|get/templates/section|section/\d+/(edit|delete)), roles: [ ROLE_SUPER_ADMIN, ROLE_ADMIN_SYSTEM, ROLE_USER_COMPANY ] }
-
-          # Rutas del Super Admin
-          - { path: ^/(action/type|attribute/type|channel/type|companyStatus|documentType|
-                field/type|fileType|formStatus|segment/type|status/type|type/event/log|event/log|
-                file|form|role|section|complaint/action|complaintSource|multiple/choice|response|sectionUser|
-                template/alert|template/company|templateDetail|templateSection|holiday/type).*, roles: ROLE_SUPER_ADMIN }
 
     role_hierarchy:
-        ROLE_SUPER_ADMIN:   [ ROLE_ADMIN_SYSTEM, ROLE_ADMIN_FORM, ROLE_USER_COMPANY,
-                              ROLE_SUPERVISOR, ROLE_AUDITOR, ROLE_ASSISTANT ]
-        ROLE_ADMIN_SYSTEM:  [ ROLE_ADMIN_FORM ]
+        ROLE_SUPER_ADMIN:   [ ROLE_SUPER_ADMIN,ROLE_ADMIN ]
 
 when@test:
     security:
