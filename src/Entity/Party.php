@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PartyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,14 +17,14 @@ class Party
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'parties')]
-    private ?PartyType $PartyType = null;
+    #[ORM\ManyToOne]
+    private ?PartyType $partyType = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $identificator = null;
+    private ?string $identification = null;
 
-    #[ORM\ManyToOne(inversedBy: 'parties')]
-    private ?IdentificatorType $identificatorType = null;
+    #[ORM\ManyToOne]
+    private ?IdentificatorType $identificationType = null;
 
     #[ORM\Column]
     private ?bool $activeInd = null;
@@ -37,22 +35,11 @@ class Party
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'parties')]
-    private ?User $owner = null;
+    #[ORM\ManyToOne]
+    private ?User $user = null;
 
     #[ORM\Column]
     private ?int $entityUserId = null;
-
-    /**
-     * @var Collection<int, Document>
-     */
-    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'party')]
-    private Collection $documents;
-
-    public function __construct()
-    {
-        $this->documents = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -73,36 +60,36 @@ class Party
 
     public function getPartyType(): ?PartyType
     {
-        return $this->PartyType;
+        return $this->partyType;
     }
 
-    public function setPartyType(?PartyType $PartyType): static
+    public function setPartyType(?PartyType $partyType): static
     {
-        $this->PartyType = $PartyType;
+        $this->partyType = $partyType;
 
         return $this;
     }
 
-    public function getIdentificator(): ?string
+    public function getIdentification(): ?string
     {
-        return $this->identificator;
+        return $this->identification;
     }
 
-    public function setIdentificator(string $identificator): static
+    public function setIdentification(string $identification): static
     {
-        $this->identificator = $identificator;
+        $this->identification = $identification;
 
         return $this;
     }
 
-    public function getIdentificatorType(): ?IdentificatorType
+    public function getIdentificationType(): ?IdentificatorType
     {
-        return $this->identificatorType;
+        return $this->identificationType;
     }
 
-    public function setIdentificatorType(?IdentificatorType $identificatorType): static
+    public function setIdentificationType(?IdentificatorType $identificationType): static
     {
-        $this->identificatorType = $identificatorType;
+        $this->identificationType = $identificationType;
 
         return $this;
     }
@@ -143,14 +130,14 @@ class Party
         return $this;
     }
 
-    public function getOwner(): ?User
+    public function getUser(): ?User
     {
-        return $this->owner;
+        return $this->user;
     }
 
-    public function setOwner(?User $owner): static
+    public function setUser(?User $user): static
     {
-        $this->owner = $owner;
+        $this->user = $user;
 
         return $this;
     }
@@ -163,36 +150,6 @@ class Party
     public function setEntityUserId(int $entityUserId): static
     {
         $this->entityUserId = $entityUserId;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Document>
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
-
-    public function addDocument(Document $document): static
-    {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-            $document->setParty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(Document $document): static
-    {
-        if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
-            if ($document->getParty() === $this) {
-                $document->setParty(null);
-            }
-        }
 
         return $this;
     }

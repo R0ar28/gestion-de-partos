@@ -50,7 +50,7 @@ a {
     transform: translateY(-50%);
     left: 19px;
     font-size: 24px;
-    color: #006db3;
+    color: #a2a2a2;
 }
 
 .forgot-password > a {
@@ -62,24 +62,24 @@ a {
     .col-lg-4, .col-8 {
         flex: 0 0 100%;
         max-width: 100%;
-        padding: 0; 
+        padding: 0;
     }
 
     .login-form {
-        padding: 4rem 2rem; 
-        min-height: 100vh; 
+        padding: 4rem 2rem;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center; 
+        justify-content: center;
     }
 
     .login-form img {
-        max-width: 60%; 
-        margin: 0 auto 1.5rem; 
+        max-width: 60%;
+        margin: 0 auto 1.5rem;
     }
 
     .login-form h4 {
-        font-size: 22px; 
+        font-size: 22px;
         text-align: center;
     }
 
@@ -89,55 +89,55 @@ a {
     }
 
     .auth-form-group-custom .form-control {
-        font-size: 16px; 
-        
+        font-size: 16px;
+
     }
 
     .btn {
-        width: 100%; 
+        width: 100%;
         font-size: 18px;
         padding: 0.75rem 1rem;
     }
 
-   
+
     .img-background {
         display: none;
     }
 }
 @media (max-width: 400px) {
     .login-form {
-        padding: 1.5rem 1rem; 
-        height: auto; 
-        min-height: 100vh; 
-        text-align: center; 
+        padding: 1.5rem 1rem;
+        height: auto;
+        min-height: 100vh;
+        text-align: center;
     }
 
     .login-form img {
-        width: 180px; 
-        margin-bottom: 1rem; 
+        width: 180px;
+        margin-bottom: 1rem;
     }
 
     .form-group {
-        margin-bottom: 1rem; 
+        margin-bottom: 1rem;
     }
 
     .form-control {
-        font-size: 14px; 
-        padding: 0.75rem; 
+        font-size: 14px;
+        padding: 0.75rem;
     }
 
     .btn {
-        font-size: 16px; 
-        padding: 0.5rem; 
-        width: 100%; 
+        font-size: 16px;
+        padding: 0.5rem;
+        width: 100%;
     }
 
     h4 {
-        font-size: 20px; 
+        font-size: 20px;
     }
 
     p {
-        font-size: 14px; 
+        font-size: 14px;
     }
 }
 

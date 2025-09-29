@@ -1,20 +1,211 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DocumentController!{% endblock %}
+{% block title %}Documentos{% endblock %}
+
+{% set documentActive = 'active' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="modal fade" id="kt_modal_create_app" tabindex="-1" style="display: none;" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-900px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ianalytics/Paginas/iansa-biblioteca/src/Controller/DocumentController.php</code></li>
-        <li>Your template at <code>/home/ianalytics/Paginas/iansa-biblioteca/templates/document/index.html.twig</code></li>
-    </ul>
-</div>
+                <div class="modal-header">
+
+                    <h2>Nuevo Documento</h2>
+
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                      transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                      transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="modal-body  ">
+
+                    <form role="form" action="#" id="uploadForm"
+                          method="POST" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                <div class="card card-dashed p-3 mb-3">
+                                    <div class="text-center">
+                                        <h5> Asignar Entidad</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <label for="party-type" class="form-label">Tipo de Entidad</label>
+                                            <select class="form-select" name="party-type" id="party-type" required>
+                                                <option value="">Seleccione un Tipo de Entidad</option>
+                                                {% for partyType in partyTypes %}
+                                                    <option value="{{ partyType.id }}">{{ partyType.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="userSelect" class="form-label">Entidad</label>
+                                            <select class="form-select" name="user" id="userSelect" required>
+                                                <option value="">Seleccione un Usuario</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="newUserFields" class="card card-dashed p-3 mb-3 d-none">
+                                    <h5 class="mb-3">Nueva Entidad</h5>
+
+                                </div>
+
+                                <div class="card card-dashed p-3 mb-3">
+                                    <div class="text-center">
+                                        <h5> Datos del Documentos</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="documentType" class="form-label">Tipo de Documento</label>
+                                            <select class="form-select" name="documentType" id="documentType" required>
+                                                <option value="">Seleccione un Tipo de Documento</option>
+                                                {% for documentType in documentsType %}
+                                                    <option
+                                                        value="{{ documentType.id }}">{{ documentType.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="documentFile" class="form-label">Archivo</label>
+                                            <input type="file" class="form-control" id="documentFile"
+                                                   name="documentFile"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-3">
+                            <input type="submit" class="btn btn-success" value="Subir Documento">
+                        </div>
+                    </form>
+
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+
+    <div class="content flex-row-fluid" id="kt_content">
+        <!--begin::Navbar-->
+        <div class="card mb-5 mb-xl-10">
+            <div class="card-body pt-9 pb-0 p-4">
+                <div class="container-fluid">
+                    <div class="row g-4">
+                        <div class="col-md-12">
+                            <div
+                                class="d-flex flex-wrap flex-sm-nowrap justify-content-end align-items-center mb-3 mb-xl-0">
+                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#kt_modal_create_app"><i class="fas fa-upload"></i> Subir
+                                    Documento
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <div class="container my-4">
+                            <div class="row g-3">
+
+                                {% for document in documents %}
+                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div
+                                            class="border rounded text-center p-3 h-100 d-flex flex-column align-items-center justify-content-between">
+
+                                            {% if document.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' %}
+                                                <img src="{{ asset('media/icons/documents/doc.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% elseif document.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation' %}
+                                                <img src="{{ asset('media/icons/documents/ppt.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% elseif document.type == 'application/pdf' %}
+                                                <img src="{{ asset('media/icons/documents/pdf.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% elseif document.type == 'application/vnd.ms-excel' %}
+                                                <img src="{{ asset('media/icons/documents/xls.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% elseif document.type == 'image/png' or document.type == 'image/jpeg' %}
+                                                <img src="{{ asset('media/icons/documents/img.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% else %}
+                                                <img src="{{ asset('media/icons/documents/file.png') }}"
+                                                     class="theme-light-show" alt=""/>
+                                            {% endif %}
+
+                                            <div class="fw-semibold text-truncate w-100" title="Nombre Documento">
+                                                {{ document.nameFile }}
+                                            </div>
+
+                                            <small class="text-muted">{{ document.documentType.name }}</small>
+                                            <small class="text-muted">{{ document.party.name }}</small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $(document).ready(function () {
+
+        })
+
+        $(document).on('change', '#party-type', function () {
+            let val = $(this).val();
+
+            console.log("Val:", val);
+
+            $.ajax({
+                url: "{{ path('search_party_by_party_type') }}",
+                method: 'GET',
+                data: {
+                    id: val
+                },
+                success: function (response) {
+                    console.log("Respuesta del servidor:", response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en la petición:", error);
+                }
+            });
+        });
+
+
+    </script>
+
+
+{% endblock  %}

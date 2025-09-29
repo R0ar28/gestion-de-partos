@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_dash');
         }
 
         // Obtener el error de login (si existe) y el último nombre de usuario ingresado

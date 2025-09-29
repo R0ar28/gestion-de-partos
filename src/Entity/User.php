@@ -7,10 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,15 +21,16 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nick = null;
+    private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['All', 'GlobalStats'])]
     private ?string $avatar = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -41,23 +45,20 @@ class User
     #[ORM\Column]
     private ?int $entityUserId = null;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Role::class)]
     #[ORM\JoinTable(
-        name: 'user_rol',
+        name: 'user_role',
         joinColumns: [new ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')],
         inverseJoinColumns: [new ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id')]
     )]
-    private Collection $role;
+    private Collection $roles;
 
-    /**
-     * @var Collection<int, Party>
-     */
-    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'owner')]
-    private Collection $parties;
+    #[ORM\Column(length: 255)]
+    private ?string $namePerson = null;
 
     public function __construct()
     {
-        $this->parties = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,14 +66,14 @@ class User
         return $this->id;
     }
 
-    public function getNick(): ?string
+    public function getName(): ?string
     {
-        return $this->nick;
+        return $this->name;
     }
 
-    public function setNick(string $nick): static
+    public function setName(string $name): static
     {
-        $this->nick = $nick;
+        $this->name = $name;
 
         return $this;
     }
@@ -106,7 +107,7 @@ class User
         return $this->avatar;
     }
 
-    public function setAvatar(string $avatar): static
+    public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 
@@ -161,32 +162,69 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Party>
-     */
-    public function getParties(): Collection
+    public function getRoles(): array
     {
-        return $this->parties;
+        $roles = $this->roles->map(fn(Role $roles) => $roles->getName())->toArray();
+        return array_unique($roles);
     }
 
-    public function addParty(Party $party): static
+    public function getRolesTxtName(): array
     {
-        if (!$this->parties->contains($party)) {
-            $this->parties->add($party);
-            $party->setOwner($this);
-        }
+        return $this->roles->map(fn(Role $roles) => $roles->getTextName())->toArray();
+    }
 
+    public function getRolesId(): array
+    {
+        return $this->roles->map(fn(Role $roles) => $roles->getId())->toArray();
+    }
+
+    public function addRole(Role $roles): self
+    {
+        if (!$this->roles->contains($roles)) {
+            $this->roles->add($roles);
+        }
         return $this;
     }
 
-    public function removeParty(Party $party): static
+    public function removeRole(Role $roles): self
     {
-        if ($this->parties->removeElement($party)) {
-            // set the owning side to null (unless already changed)
-            if ($party->getOwner() === $this) {
-                $party->setOwner(null);
-            }
-        }
+        $this->roles->removeElement($roles);
+        return $this;
+    }
+
+    public function getRolesData(): array
+    {
+        return $this->roles->map(fn(Role $role) => [
+            'id' => $role->getId(),
+            'name' => $role->getName(),
+            'textName' => $role->getTextName(),
+        ])->toArray();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
+    }
+
+    /** @deprecated Symfony < 5.3 */
+    public function getUsername(): string
+    {
+        return $this->email ?? '';
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si tuvieras un plainPassword temporal, lo borras aquí
+    }
+
+    public function getNamePerson(): ?string
+    {
+        return $this->namePerson;
+    }
+
+    public function setNamePerson(string $namePerson): static
+    {
+        $this->namePerson = $namePerson;
 
         return $this;
     }

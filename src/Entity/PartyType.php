@@ -18,14 +18,7 @@ class PartyType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'PartyType')]
-    private ?Party $party = null;
 
-    /**
-     * @var Collection<int, Party>
-     */
-    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'PartyType')]
-    private Collection $parties;
 
     public function __construct()
     {
@@ -49,45 +42,9 @@ class PartyType
         return $this;
     }
 
-    public function getParty(): ?Party
-    {
-        return $this->party;
-    }
 
-    public function setParty(?Party $party): static
-    {
-        $this->party = $party;
 
-        return $this;
-    }
 
-    /**
-     * @return Collection<int, Party>
-     */
-    public function getParties(): Collection
-    {
-        return $this->parties;
-    }
 
-    public function addParty(Party $party): static
-    {
-        if (!$this->parties->contains($party)) {
-            $this->parties->add($party);
-            $party->setPartyType($this);
-        }
 
-        return $this;
-    }
-
-    public function removeParty(Party $party): static
-    {
-        if ($this->parties->removeElement($party)) {
-            // set the owning side to null (unless already changed)
-            if ($party->getPartyType() === $this) {
-                $party->setPartyType(null);
-            }
-        }
-
-        return $this;
-    }
 }

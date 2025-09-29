@@ -38,8 +38,6 @@ class Document
     #[ORM\Column]
     private ?int $entityUserId = null;
 
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    private ?Party $party = null;
 
     public function getId(): ?int
     {
@@ -106,7 +104,7 @@ class Document
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
@@ -118,7 +116,7 @@ class Document
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -142,15 +140,5 @@ class Document
         return $this;
     }
 
-    public function getParty(): ?Party
-    {
-        return $this->party;
-    }
 
-    public function setParty(?Party $party): static
-    {
-        $this->party = $party;
-
-        return $this;
-    }
 }

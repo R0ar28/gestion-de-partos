@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% set documentTypeActive = 'active' %}
+
+
+{% block title %}DocumentType index{% endblock %}
+
+{% block body %}
+
+    <div class="content flex-row-fluid" id="kt_content">
+        <!--begin::Navbar-->
+        <div class="card mb-5 mb-xl-10">
+            <div class="card-body pt-9 pb-0 p-4">
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div
+                            class="d-flex flex-wrap flex-sm-nowrap justify-content-end align-items-center mb-3 mb-xl-0">
+                            <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#documentTypeModal"><i class="fas fa-plus"></i> Agregar Tipo
+                                Documento
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="container">
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for document_type in document_types %}
+                                    <tr>
+                                        <td class="text-center">{{ document_type.id }}</td>
+                                        <td class="text-center">{{ document_type.name }}</td>
+                                        <td class="text-center gap-2">
+                                            <button class="btn btn-secondary btn-edit"
+                                                    data-id="{{ document_type.id }}"
+                                                    data-name="{{ document_type.name }}">
+                                                <i class="fas fa-pen"></i> Editar
+                                            </button>
+
+                                            <button class="btn btn-danger btn-delete" data-id="{{ document_type.id }}">
+                                                <i
+                                                    class="fas fa-trash"></i>
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3">No se Encontraron Datos</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="documentTypeModal" tabindex="-1" aria-labelledby="documentTypeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentTypeModalLabel">Nuevo Tipo de Documento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ path('app_document_type_new') }}" method="post">
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+
+                    </div>
+                    <div class=" modal-footer">
+                        <div class="float-end">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="document-type-modal-edit" tabindex="-1" aria-labelledby="document-type-modal-edit-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="document-type-modal-edit-label">Editar Tipo de Documento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ path('app_document_type_edit') }}" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name-edit" class="form-label">Nombre</label>
+                            <input type="hidden" name="id" id="id">
+                            <input type="text" id="name-edit" name="name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="float-end">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        $(document).on('click', '.btn-edit', function () {
+            let id = $(this).data('id');
+            let name = $(this).data('name');
+
+            $('#name-edit').val(name);
+            $("#id").val(id);
+
+            $("#document-type-modal-edit").modal('show');
+        })
+
+        $(document).on('click', '.btn-delete', function () {
+
+            let button = $(this);
+            let id = button.data('id');
+
+            swal.fire({
+                title: '¿Estas seguro?',
+                text: 'Una vez eliminado, no se podra recuperar el registro',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ path("app_document_type_delete") }}',
+                        method: 'POST',
+                        data: {
+                            id: id,
+                        },
+                        success: function (response) {
+                            if (response.status == 'success') {
+                                swal.fire({
+                                    title: 'Documento Eliminado',
+                                    text: 'El Documento fue eliminado con exito',
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar',
+                                    timer: 2000,
+                                })
+                                button.closest('tr').remove();
+                            } else {
+                                swal.fire({
+                                    title: 'Error',
+                                    text: 'El Documento no pudo ser eliminado',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar',
+                                    timer: 2000,
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+
+        })
+    </script>
+
+{% endblock %}
