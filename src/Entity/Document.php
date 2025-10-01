@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Document
 {
     #[ORM\Id]
@@ -38,6 +39,16 @@ class Document
     #[ORM\Column]
     private ?int $entityUserId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    private ?Party $party = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -136,6 +147,18 @@ class Document
     public function setEntityUserId(int $entityUserId): static
     {
         $this->entityUserId = $entityUserId;
+
+        return $this;
+    }
+
+    public function getParty(): ?Party
+    {
+        return $this->party;
+    }
+
+    public function setParty(?Party $party): static
+    {
+        $this->party = $party;
 
         return $this;
     }

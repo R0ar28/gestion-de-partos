@@ -18,7 +18,11 @@ class PartyType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-
+    /**
+     * @var Collection<int, Party>
+     */
+    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'partyType')]
+    private Collection $parties;
 
     public function __construct()
     {
@@ -38,6 +42,36 @@ class PartyType
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Party>
+     */
+    public function getParties(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addParty(Party $party): static
+    {
+        if (!$this->parties->contains($party)) {
+            $this->parties->add($party);
+            $party->setPartyType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParty(Party $party): static
+    {
+        if ($this->parties->removeElement($party)) {
+            // set the owning side to null (unless already changed)
+            if ($party->getPartyType() === $this) {
+                $party->setPartyType(null);
+            }
+        }
 
         return $this;
     }

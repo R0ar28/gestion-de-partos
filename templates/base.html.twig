@@ -117,6 +117,14 @@
                                                 <span class="menu-title">Tipo de Documento</span>
                                             </a>
                                         </div>
+
+                                        <div class="menu-item">
+                                            <a class="menu-link {{ partyActive|default('') }} py-3"
+                                               href="{{ path('app_party') }}">
+                                                <!-- Mover a Mantenedores -->
+                                                <span class="menu-title">Entidad</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--end::Menu-->
@@ -205,17 +213,6 @@
                                            class="menu-link px-5">Mi Perfil</a>
                                     </div>
 
-                                {% endif %}
-
-
-
-                                {% if is_granted('ROLE_AUXILIAR') or is_granted('ROLE_BOSS') %}
-                                    <div class="separator my-2"></div>
-
-
-                                    <div class="menu-item px-5">
-                                        <a class="menu-link px-5" id="ChangeLab">Cambiar Laboratorio</a>
-                                    </div>
                                 {% endif %}
 
                                 <div class="separator my-2"></div>
@@ -445,6 +442,28 @@
     {% endfor %}
 
 
+    $(document).ready(function () {
+        $('.dataTableOn').each(function () {
+            let tableTBody = $(this).find('tbody tr').not('.no-data');
+
+            if (tableTBody.length > 1 || (tableTBody.length === 1 && !tableTBody.hasClass('no-data'))) {
+                console.log('la hace')
+                $(this).DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+                    },
+                    order: [[0, "desc"]],
+                    columnDefs: [
+                        {
+                            targets: 'no-sort',
+                            orderable: false
+                        },
+                        {type: 'num', targets: 0}
+                    ],
+                });
+            }
+        });
+    });
 
 
 

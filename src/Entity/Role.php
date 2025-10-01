@@ -22,8 +22,6 @@ class Role
     #[ORM\Column(length: 255)]
     private ?string $textName = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
-    private Collection $user;
 
     public function getId(): ?int
     {

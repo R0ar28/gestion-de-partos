@@ -56,9 +56,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $namePerson = null;
 
+    /**
+     * @var Collection<int, Party>
+     */
+    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'user')]
+    private Collection $parties;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->parties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->email ?? '';
+        return $this->id ?? '';
     }
 
     /** @deprecated Symfony < 5.3 */
@@ -225,6 +232,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNamePerson(string $namePerson): static
     {
         $this->namePerson = $namePerson;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Party>
+     */
+    public function getParties(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addParty(Party $party): static
+    {
+        if (!$this->parties->contains($party)) {
+            $this->parties->add($party);
+            $party->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParty(Party $party): static
+    {
+        if ($this->parties->removeElement($party)) {
+            // set the owning side to null (unless already changed)
+            if ($party->getUser() === $this) {
+                $party->setUser(null);
+            }
+        }
 
         return $this;
     }

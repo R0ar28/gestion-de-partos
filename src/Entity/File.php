@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class File
 {
     #[ORM\Id]
@@ -39,6 +40,14 @@ class File
      */
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'file')]
     private Collection $documents;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
     public function __construct()
     {

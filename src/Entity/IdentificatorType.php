@@ -18,10 +18,18 @@ class IdentificatorType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Party>
+     */
+    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'identificationType')]
+    private Collection $parties;
+
     public function __construct()
     {
         $this->parties = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -36,6 +44,36 @@ class IdentificatorType
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Party>
+     */
+    public function getParties(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addParty(Party $party): static
+    {
+        if (!$this->parties->contains($party)) {
+            $this->parties->add($party);
+            $party->setIdentificationType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParty(Party $party): static
+    {
+        if ($this->parties->removeElement($party)) {
+            // set the owning side to null (unless already changed)
+            if ($party->getIdentificationType() === $this) {
+                $party->setIdentificationType(null);
+            }
+        }
 
         return $this;
     }
