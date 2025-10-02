@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PartyTypeRepository;
+use App\Repository\BirthTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PartyTypeRepository::class)]
-class PartyType
+#[ORM\Entity(repositoryClass: BirthTypeRepository::class)]
+class BirthType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,14 +19,14 @@ class PartyType
     private ?string $name = null;
 
     /**
-     * @var Collection<int, Party>
+     * @var Collection<int, Birth>
      */
-    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'partyType')]
-    private Collection $parties;
+    #[ORM\OneToMany(targetEntity: Birth::class, mappedBy: 'birthType')]
+    private Collection $births;
 
     public function __construct()
     {
-        $this->parties = new ArrayCollection();
+        $this->births = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,38 +47,32 @@ class PartyType
     }
 
     /**
-     * @return Collection<int, Party>
+     * @return Collection<int, Birth>
      */
-    public function getParties(): Collection
+    public function getBirths(): Collection
     {
-        return $this->parties;
+        return $this->births;
     }
 
-    public function addParty(Party $party): static
+    public function addBirth(Birth $birth): static
     {
-        if (!$this->parties->contains($party)) {
-            $this->parties->add($party);
-            $party->setPartyType($this);
+        if (!$this->births->contains($birth)) {
+            $this->births->add($birth);
+            $birth->setBirthType($this);
         }
 
         return $this;
     }
 
-    public function removeParty(Party $party): static
+    public function removeBirth(Birth $birth): static
     {
-        if ($this->parties->removeElement($party)) {
+        if ($this->births->removeElement($birth)) {
             // set the owning side to null (unless already changed)
-            if ($party->getPartyType() === $this) {
-                $party->setPartyType(null);
+            if ($birth->getBirthType() === $this) {
+                $birth->setBirthType(null);
             }
         }
 
         return $this;
     }
-
-
-
-
-
-
 }

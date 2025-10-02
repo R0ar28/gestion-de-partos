@@ -58,10 +58,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $namePerson = null;
 
     /**
-     * @var Collection<int, Party>
+     * @var Collection<int, Baby>
      */
-    #[ORM\OneToMany(targetEntity: Party::class, mappedBy: 'user')]
-    private Collection $parties;
+    #[ORM\OneToMany(targetEntity: Baby::class, mappedBy: 'entityUser')]
+    private Collection $babies;
+
+    /**
+     * @var Collection<int, MedicalTeam>
+     */
+    #[ORM\OneToMany(targetEntity: MedicalTeam::class, mappedBy: 'user')]
+    private Collection $medicalTeams;
+
+    /**
+     * @var Collection<int, Birth>
+     */
+    #[ORM\OneToMany(targetEntity: Birth::class, mappedBy: 'entityUser')]
+    private Collection $births;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -75,6 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = new ArrayCollection();
         $this->parties = new ArrayCollection();
+        $this->babies = new ArrayCollection();
+        $this->medicalTeams = new ArrayCollection();
+        $this->births = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +284,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($party->getUser() === $this) {
                 $party->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Baby>
+     */
+    public function getBabies(): Collection
+    {
+        return $this->babies;
+    }
+
+    public function addBaby(Baby $baby): static
+    {
+        if (!$this->babies->contains($baby)) {
+            $this->babies->add($baby);
+            $baby->setEntityUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBaby(Baby $baby): static
+    {
+        if ($this->babies->removeElement($baby)) {
+            // set the owning side to null (unless already changed)
+            if ($baby->getEntityUser() === $this) {
+                $baby->setEntityUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalTeam>
+     */
+    public function getMedicalTeams(): Collection
+    {
+        return $this->medicalTeams;
+    }
+
+    public function addMedicalTeam(MedicalTeam $medicalTeam): static
+    {
+        if (!$this->medicalTeams->contains($medicalTeam)) {
+            $this->medicalTeams->add($medicalTeam);
+            $medicalTeam->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedicalTeam(MedicalTeam $medicalTeam): static
+    {
+        if ($this->medicalTeams->removeElement($medicalTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($medicalTeam->getUser() === $this) {
+                $medicalTeam->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Birth>
+     */
+    public function getBirths(): Collection
+    {
+        return $this->births;
+    }
+
+    public function addBirth(Birth $birth): static
+    {
+        if (!$this->births->contains($birth)) {
+            $this->births->add($birth);
+            $birth->setEntityUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBirth(Birth $birth): static
+    {
+        if ($this->births->removeElement($birth)) {
+            // set the owning side to null (unless already changed)
+            if ($birth->getEntityUser() === $this) {
+                $birth->setEntityUser(null);
             }
         }
 

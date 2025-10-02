@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\DocumentType;
+use App\Entity\Mother;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<DocumentType>
+ * @extends ServiceEntityRepository<Mother>
  */
-class DocumentTypeRepository extends ServiceEntityRepository
+class MotherRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, DocumentType::class);
+        parent::__construct($registry, Mother::class);
     }
 
     //    /**
-    //     * @return DocumentType[] Returns an array of DocumentType objects
+    //     * @return Mother[] Returns an array of Mother objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
+    //            ->orderBy('m.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?DocumentType
+    //    public function findOneBySomeField($value): ?Mother
     //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

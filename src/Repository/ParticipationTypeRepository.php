@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\IdentificatorType;
+use App\Entity\ParticipationType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<IdentificatorType>
+ * @extends ServiceEntityRepository<ParticipationType>
  */
-class IdentificatorTypeRepository extends ServiceEntityRepository
+class ParticipationTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, IdentificatorType::class);
+        parent::__construct($registry, ParticipationType::class);
     }
 
     //    /**
-    //     * @return IdentificatorType[] Returns an array of IdentificatorType objects
+    //     * @return ParticipationType[] Returns an array of ParticipationType objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('i.id', 'ASC')
+    //            ->orderBy('p.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?IdentificatorType
+    //    public function findOneBySomeField($value): ?ParticipationType
     //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
