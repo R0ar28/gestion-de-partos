@@ -9,6 +9,7 @@ use App\Entity\Party;
 use App\Entity\PartyType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +37,7 @@ final class DocumentController extends AbstractController
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')) {
-            $documents = $em->getRepository(Document::class)->findDocumentsBy( true);
+            $documents = $em->getRepository(Document::class)->findDocumentsBy(true);
         } else {
             $party = $em->getRepository(Party::class)->findOneBy(['user' => $user]);
 
@@ -177,10 +178,48 @@ final class DocumentController extends AbstractController
         $document->setDescriptionTxt($description);
         $document->setUpdatedAt(new \DateTime());
         $document->setEntityUserId($user->getUserIdentifier());
-        $em->persist($document);
         $em->flush();
 
         $this->addFlash('success', 'Documento editado correctamente');
         return $this->redirectToRoute('app_document');
     }
+
+    #[Route('/delete', name: 'app_delete_document', methods: ['POST'])]
+    public function delete(Request $request): JsonResponse
+    {
+        $em = $this->entityManager;
+
+        $id = $request->get('id');
+
+        $document = $em->getRepository(Document::class)->find($id);
+
+        if ($document != null) {
+            $document->setActiveInd(False);
+            $document->setUpdatedAt(new \DateTime());
+            $document->setEntityUserId($this->getUser()->getUserIdentifier());
+            $em->persist($document);
+            $em->flush();
+        }
+
+        return $this->json(['status' => true]);
+    }
+
+    #[Route('/download', name: 'app_download_document', methods: ['GET'])]
+    public function download(Request $request): Response
+    {
+        $em = $this->entityManager;
+
+        $id = $request->get('id');
+        $document = $em->getRepository(Document::class)->find($id);
+
+        $path = $this->getParameter('kernel.project_dir') . '/static/uploads/'
+            . $document->getFile()->getRoot() . '/'
+            . $document->getFile()->getNameFile();
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        return $this->file($path, $document->getName() . '.' . $extension);
+    }
+
+
 }

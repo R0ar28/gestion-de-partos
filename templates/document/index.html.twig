@@ -260,7 +260,8 @@
                                                     <label for="document-description-edit" class="form-label">
                                                         Descripcion del Documento</label>
                                                     <textarea class="form-control" rows="2"
-                                                              id="document-description-edit" name="document-description-edit">Documento firmado por ambas partes</textarea>
+                                                              id="document-description-edit"
+                                                              name="document-description-edit">Documento firmado por ambas partes</textarea>
                                                 </dd>
 
                                             </dl>
@@ -397,19 +398,19 @@
 
                                             <td>
 
-                                                <a href="#"
+                                                <a href="{{ path('app_download_document', {id: document.id}) }}"
                                                    class="btn btn-sm btn-secondary">
                                                     <i class="bi bi-download"></i> Descargar
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                    class="btn btn-sm btn-success btn-edit-document"
                                                    data-id="{{ document.id }}">
-                                                    <i class="bi bi-pencil"></i> Editar
+                                                    <i class="bi bi-pencil-square"></i> Editar
                                                 </a>
                                                 <a href="#"
                                                    class="btn btn-sm btn-danger btn-delete-document"
                                                    data-id="{{ document.id }}">
-                                                    <i class="bi bi-trash"></i> Eliminar
+                                                    <i class="fas fa-trash"></i> Eliminar
                                                 </a>
 
                                             </td>
@@ -488,7 +489,7 @@
 
                     console.log(fileData);
 
-                    $("#document-icon").append('<img src="' + fileData.icon + '" alt="' + fileData.alt + '" style="width:60px;height:auto;">');
+                    $("#document-icon").empty().append('<img src="' + fileData.icon + '" alt="' + fileData.alt + '" style="width:60px;height:auto;">');
                     $("#document-name-edit").val(data.document.name);
                     $("#document-type-edit").text(fileData.alt);
                     $("#document-created-edit").text(data.document.createdAt);
@@ -515,7 +516,7 @@
             } else if (type === 'application/pdf') {
                 alt = 'Documento PDF';
                 icon = '{{ asset('media/icons/documents/pdf.png') }}';
-            } else if (type === 'application/vnd.ms-excel') {
+            } else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
                 alt = 'Documento Excel';
                 icon = '{{ asset('media/icons/documents/xls.png') }}';
             } else if (type === 'image/png' || type === 'image/jpeg') {
@@ -528,6 +529,47 @@
             return {icon, alt};
         }
 
+        $(document).on('click', '.btn-delete-document', function () {
+            let id = $(this).data('id');
+
+            let btn = $(this);
+
+            swal.fire({
+                title: '¿Estas Seguro de Eliminar este Documento?',
+                text: '¡Una vez eliminado no se podra recuperar!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ path('app_delete_document') }}",
+                        method: 'POST',
+                        data: {
+                            id: id
+                        },
+                        success: function (response) {
+                            if (response.status == true) {
+                                Swal.fire({
+                                    title: 'Success',
+                                    text: 'Documento eliminado correctamente',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+
+                                btn.closest('tr').remove();
+
+                            }
+                        }
+                    })
+                }
+            })
+
+        })
 
 
         {#  $(document).on('click', '#btn-add-party', function (){

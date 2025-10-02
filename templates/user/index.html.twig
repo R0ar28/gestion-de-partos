@@ -1,20 +1,403 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Listado de Usuarios{% endblock %}
+
+{% set userActive = 'active' %}
+{% set userimage = 'media/user.png' %}
+
+{% block breadBottom %}
+    <button class="btn btn-secondary" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_create_app"><i class="fas fa-plus"></i> Agregar
+        Usuario
+    </button>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ianalytics/Paginas/iansa-biblioteca/src/Controller/UserController.php</code></li>
-        <li>Your template at <code>/home/ianalytics/Paginas/iansa-biblioteca/templates/user/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="modal fade" id="kt_modal_create_app" tabindex="-1" style="display: none;" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-900px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h2>Nueva Cuenta</h2>
+
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+								</svg>
+							</span>
+
+                    </div>
+
+                </div>
+
+                <form action="{{ path('app_user_create') }}" method="POST">
+                    <div class="modal-body  ">
+                        <input type="hidden" name="user[id]" id="user-id">
+
+
+                        <div class="card card-dashed p-4 mb-3" id="card-user">
+                            <div class="text-center mb-4">
+                                <h5 class="mb-0">Creación de Usuario</h5>
+                            </div>
+                            <div class="row g-3">
+
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <div class="user-image-wrapper">
+                                            <img src="{{ asset('media/user.png') }}" alt="Imagen de Usuario"
+                                                 id="previewImage">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary" id="uploadBtn">
+                                            <i class="fas fa-image"></i> Seleccionar archivo
+                                        </button>
+                                        <input type="file" id="fileInput" style="display: none;"
+                                               accept="image/*">
+
+                                        <!-- Aquí guardamos el base64 -->
+                                        <input type="hidden" name="user[user_avatar]" id="base64Input">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label d-block" for="user-name-person">Nombre del
+                                        propietario </label>
+                                    <input type="text" class="form-control" id="user-name-person"
+                                           name="user[name_person]" placeholder="Nombre del propietario" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="user-username" class="form-label">Nombre de Usuario <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="user-username"
+                                           name="user[user_name]" placeholder="Nombre de Usuario" required>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <label for="user-email" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="user-email"
+                                           name="user[user_email]" placeholder="correo@ejemplo.com" required>
+                                </div>
+
+                                <!-- Roles Section -->
+                                <div class="col-12">
+                                    <label class="form-label d-block">Roles <span
+                                            class="text-danger">*</span></label>
+                                    <div class="border rounded p-3">
+                                        <div class="row">
+                                            {% for role in roles %}
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <input
+                                                            class="form-check-input me-2"
+                                                            type="checkbox"
+                                                            id="role-{{ role.id }}"
+                                                            name="user-roles[]"
+                                                            value="{{ role.id }}">
+                                                        <label class="form-check-label mb-0"
+                                                               for="role-{{ role.id }}">
+                                                            {{ role.textName }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Selecciona uno o más roles para el usuario</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+
+
+    <div class="row  ">
+        <div class="col-md-12    ">
+            <div class="table-responsive card  bgi-no-repeat bgi-size-contain "
+                 style="  background-position: right;">
+                <!--begin::Card body-->
+                <div class="card-body p-lg-17">
+                    <div class="form-check form-switch form-check-custom form-check-solid" style="justify-content: end">
+                        <input class="form-check-input" type="checkbox" value="" id="flexSwitchDefault"/>
+                        <label class="form-check-label" for="flexSwitchDefault">
+                            Mostrar Todos
+                        </label>
+                    </div>
+                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6">
+                        {% for role in roles %}
+
+                            <li class="nav-item">
+                                <a class="nav-link  {% if role.id == 1 %} active {% endif %}   " data-id="1"
+                                   data-bs-toggle="tab"
+                                   href="#kt_tab_pane_{{ role.id }}">{{ role.textName }}  </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        {% for key, rolesUser in memberCount %}
+                            <div class="tab-pane fade show {% if rolesUser.id == 1 %} active {% endif %}"
+                                 id="kt_tab_pane_{{ rolesUser.id }}" role="tabpanel">
+
+                                {% if rolesUser.users is empty %}
+                                    <!-- Mostrar mensaje si no hay usuarios -->
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">No hay usuarios</h5>
+                                            <p class="card-text">Este rol no tiene usuarios asignados.</p>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <!-- Mostrar tabla si hay usuarios -->
+                                    <table id="kt_datatable_zero_configuration"
+                                           class="table table-hover table-striped table-row-bordered gy-5">
+                                        <thead>
+                                        <tr class="fw-semibold fs-6 text-muted">
+                                            <th><span
+                                                    class="text-dark fw-bold text-hover-primary fs-3">{{ rolesUser.name }}</span>
+                                            </th>
+                                            <th><span class="text-dark fw-bold text-hover-primary fs-3">Correo</span>
+                                            </th>
+                                            <th class="no-sort"><span class="text-dark fw-bold text-hover-primary fs-3">Opciones</span>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for enrolmen in rolesUser.users %}
+                                            <tr class="{% if enrolmen.activeInd == 0 %}hidden-row{% endif %}"
+                                                style="{% if enrolmen.activeInd == 0 %}background: #FFEDEF{% endif %}">
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="symbol symbol-45px me-5">
+                                                            <img
+                                                                src="{{ enrolmen.avatar|default(asset('media/user.png')) }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="d-flex justify-content-start flex-column">
+                                                            <a href="#"
+                                                               class="text-dark fw-bold text-hover-primary fs-6 text-start">{{ enrolmen.namePerson }}</a>
+                                                            <span
+                                                                class="text-muted fw-semibold text-muted d-block fs-7 text-start">
+                                                                {% if enrolmen.activeInd %}
+                                                                    <span><i class="fa fa-check-circle"
+                                                                             style="color: #50cd89"></i> Activado </span>
+                                                                {% else %}
+                                                                    <span class="text-gray text-start"><i
+                                                                            class="fa fa-window-close"
+                                                                            style="color: darkred"></i> Desactivado </span>
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ enrolmen.email }}</td>
+                                                <td>
+                                                    <a class="btn btn-secondary btn-edit-user"
+                                                       href="javascript:void(0)" data-id="{{ enrolmen.id }}"> <i
+                                                            class="bi bi-pencil-square"></i> Editar</a>
+
+                                                    {% if enrolmen.activeInd %}
+                                                        <a href="javascript:void(0)"
+                                                           class="btn btn-danger btn-delete-user"
+                                                           data-id="{{ enrolmen.id }}"
+                                                           data-type="false">
+                                                            <i class="fas fa-trash"></i> Eliminar
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="javascript:void(0)"
+                                                           class="btn btn-success btn-delete-user"
+                                                           data-id="{{ enrolmen.id }}"
+                                                           data-type="true">
+                                                            <i class="fas fa-trash-restore"></i> Eliminar
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $(document).on('change', '#flexSwitchDefault', function () {
+            if ($(this).is(':checked')) {
+                // Mostrar todas las filas
+                $('.hidden-row').show();
+            } else {
+                // Ocultar solo las que están desactivadas
+                $('.hidden-row').hide();
+            }
+        });
+
+        $(document).ready(function () {
+
+            $('.hidden-row').hide();
+
+            $('#uploadBtn').click(function () {
+                $('#fileInput').click();
+            });
+
+            $('#fileInput').change(function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const base64 = e.target.result;
+                        $('#previewImage').attr('src', base64);
+                        $('#base64Input').val(base64);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        })
+
+        $(document).on('click', '.btn-edit-user', function (e) {
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: "{{ path('app_user_edit_get') }}",
+                method: "GET",
+                data: {id: id},
+                success: function (response) {
+                    if (response.status) {
+                        let data = response.data;
+
+                        // Setear valores en los inputs
+                        $("#user-id").val(id);
+                        $("#user-name-person").val(data.personName);
+                        $("#user-username").val(data.nameUser);
+                        $("#user-email").val(data.userEmail).prop('readonly', true);
+
+                        // Avatar (si existe)
+                        if (data.avatar) {
+                            $("#previewImage").attr("src", data.avatar);
+                            $("#base64Input").val(data.avatar);
+                        }
+
+                        // Roles: desmarcar todo y marcar los que tenga
+                        $("input[name='user-roles[]']").prop("checked", false);
+
+
+                        data.roles.forEach(function (role) {
+                            $("#role-" + role).prop("checked", true);
+                        });
+
+
+                        // Estado (si lo manejas como checkbox o select)
+                        // $("#user-status").val(data.status);
+
+                        // Cambiar el título del modal
+                        $("#kt_modal_create_app h2").text("Editar Usuario");
+
+                        // Abrir modal
+                        $("#kt_modal_create_app").modal("show");
+                    } else {
+                        alert("No se pudo obtener la información del usuario.");
+                    }
+                }
+            });
+        });
+
+        $('#kt_modal_create_app').on('hidden.bs.modal', function () {
+            // Resetear el formulario completo
+            $(this).find("form")[0].reset();
+
+            // Restaurar avatar por defecto
+            $("#previewImage").attr("src", "{{ asset('media/user.png') }}");
+            $("#base64Input").val("");
+
+            // Desmarcar roles
+            $("input[name='user-roles[]']").prop("checked", false);
+
+            // Quitar readonly de email
+            $("#user-email").prop('readonly', false);
+
+            // Resetear ID oculto
+            $("#user-id").val("");
+
+            // Restaurar título
+            $("#kt_modal_create_app h2").text("Nueva Cuenta");
+
+        });
+
+        $(document).on('click', '.btn-delete-user', function (e) {
+
+            swal.fire({
+                title: '¿Estas Seguro de Eliminar este Documento?',
+                text: '¡Una vez eliminado no se podra recuperar!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).data('id');
+                    let type = $(this).data('type');
+                    console.log(id)
+                    $.ajax({
+                        url: "{{ path('app_user_delete') }}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            type: type,
+                        },
+                        success: function (response) {
+                            if (response.status == true) {
+                                Swal.fire(
+                                    'Usuario Eliminado',
+                                    'El usuario fue desactivado correctamente.',
+                                    'success'
+                                );
+                            }
+                        }
+                    })
+                }
+            });
+        });
+
+    </script>
+
 {% endblock %}

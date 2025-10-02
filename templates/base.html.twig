@@ -110,21 +110,59 @@
                                             </a>
                                         </div>
 
-                                        <div class="menu-item">
-                                            <a class="menu-link {{ documentTypeActive|default('') }} py-3"
-                                               href="{{ path('app_document_type') }}">
-                                                <!-- Mover a Mantenedores -->
-                                                <span class="menu-title">Tipo de Documento</span>
-                                            </a>
-                                        </div>
 
                                         <div class="menu-item">
                                             <a class="menu-link {{ partyActive|default('') }} py-3"
                                                href="{{ path('app_party') }}">
-                                                <!-- Mover a Mantenedores -->
                                                 <span class="menu-title">Entidad</span>
                                             </a>
                                         </div>
+
+                                        <div class="menu-item">
+                                            <a class="menu-link {{ userActive|default('') }} py-3"
+                                               href="{{ path('app_user') }}">
+                                                <span class="menu-title">Cuentas</span>
+                                            </a>
+                                        </div>
+
+                                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                             class="menu-item  {{ configurations|default('') }}   menu-lg-down-accordion me-lg-1">
+                                                    <span class="menu-link {{ maintainers|default('') }}  py-3">
+                                                        <span class="menu-title">Mantenedores</span>
+                                                        <span class="menu-arrow fs-2"></span>
+                                                    </span>
+                                            <div
+                                                class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+
+                                                <div class="menu-item">
+                                                    <a class="menu-link  py-3"
+                                                       href="{{ path('app_document_type') }}">
+
+                                                        <span class="menu-title"> Tipo de Documento</span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="menu-item">
+                                                    <a class="menu-link  py-3"
+                                                       href="{{ path('app_document_type') }}">
+
+                                                        <span class="menu-title"> Tipo de Entidad</span>
+                                                    </a>
+                                                </div>
+
+                                                <div class="menu-item">
+                                                    <a class="menu-link  py-3"
+                                                       href="{{ path('app_document_type') }}">
+
+                                                        <span class="menu-title"> Tipo de Identificación</span>
+                                                    </a>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                                 <!--end::Menu-->
@@ -464,7 +502,6 @@
             }
         });
     });
-
 
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields

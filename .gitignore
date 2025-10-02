@@ -10,6 +10,7 @@
 /config/secrets
 .env
 .env.*
+/static/uploads
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
