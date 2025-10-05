@@ -16,6 +16,17 @@ class ParticipationTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, ParticipationType::class);
     }
 
+    public function findParticipationTypeByMedical($id){
+
+        return $this->createQueryBuilder('pt')
+            ->join('pt.medicalType', 'mt')
+            ->join('mt.medicalTeams', 'm')
+            ->where('m.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return ParticipationType[] Returns an array of ParticipationType objects
     //     */

@@ -2,33 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Birth;
+use App\Entity\BirthPhase;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Birth>
+ * @extends ServiceEntityRepository<BirthPhase>
  */
-class BirthRepository extends ServiceEntityRepository
+class BirthPhaseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Birth::class);
-    }
-
-    public function findBirthWithPhase($active = true){
-        return $this->createQueryBuilder('b')
-            ->join('b.birthPhases', 'bp')
-            ->where('bp.endDate is Null')
-            ->andWhere('b.activeInd = :active')
-            ->setParameter('active', $active)
-            ->getQuery()
-            ->getResult()
-        ;
+        parent::__construct($registry, BirthPhase::class);
     }
 
     //    /**
-    //     * @return Birth[] Returns an array of Birth objects
+    //     * @return BirthPhase[] Returns an array of BirthPhase objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -42,7 +31,7 @@ class BirthRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Birth
+    //    public function findOneBySomeField($value): ?BirthPhase
     //    {
     //        return $this->createQueryBuilder('b')
     //            ->andWhere('b.exampleField = :val')

@@ -1,20 +1,231 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BirthController!{% endblock %}
+{% block title %}
+Gestion de Partos
+{% endblock %}
+
+{% block breadBottom %}
+    <button class="btn btn-secondary" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_create_app"><i class="fas fa-plus"></i> Registrar Nacimiento
+    </button>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="modal fade" id="kt_modal_create_app" tabindex="-1" style="display: none;" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-900px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div class="modal-header">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ianalytics/ClasesInacap/IngenieriaSoftware/gestion-de-partos/src/Controller/BirthController.php</code></li>
-        <li>Your template at <code>/home/ianalytics/ClasesInacap/IngenieriaSoftware/gestion-de-partos/templates/birth/index.html.twig</code></li>
-    </ul>
-</div>
+                    <h2>Nuevo Documento</h2>
+
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                      transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                      transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="modal-body  ">
+
+                    <form role="form"  id="uploadForm"
+                          method="POST" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                <div class="card card-dashed p-3 mb-3">
+                                    <div class="text-center">
+                                        <h5> Asignar Madre</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <label for="mother" class="form-label">Madre</label>
+                                            <select class="form-select" name="mother" id="mother" required>
+                                                <option value="" selected disabled>
+                                                    Seleccione una Madre
+                                                </option>
+                                                {% for mother in mothers %}
+                                                    <option value="{{ mother.id }}"> {{ mother.rut}} - {{ mother.name }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card-dashed p-3 mb-3">
+                                    <div class="text-center">
+                                        <h5> Datos del Parto </h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="phase-type" class="form-label">Fase del Parto</label>
+                                            <select class="form-select" name="phase-type" id="phase-type" required>
+                                                <option value="" selected disabled>
+                                                    Seleccione una Fase
+                                                </option>
+                                                {% for phaseType in phasesTypes %}
+                                                    <option value="{{ phaseType.id }}"> {{ phaseType.name }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="birth-type" class="form-label">Tipos de Parto</label>
+                                            <select class="form-select" name="birth-type" id="birth-type" required>
+                                                <option value="" selected disabled>
+                                                    Seleccione un Tipo de Parto
+                                                </option>
+                                                {% for birthType in birthTypes %}
+                                                    <option value="{{ birthType.id }}"> {{ birthType.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="description-phase" class="form-label">Observación (Opcional)</label>
+                                            <textarea name="description-phase" id="description-phase" cols="30"
+                                                      rows="5" class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <label class="form-label" for="room">Sala de Parto</label>
+                                            <select class="form-select" name="room" id="room" required>
+                                                <option value="" selected disabled>Seleccione la Sala de Parto</option>
+                                                {% for room in rooms %}
+                                                    <option value="{{ room.id }}">{{ room.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card-dashed p-4 mb-4 medico-item">
+                                    <div class="text-center mb-3">
+                                        <h5 class="fw-bold">Asignación de Médico</h5>
+                                    </div>
+
+                                    <div class="row g-4">
+
+                                        <div class="col-lg-12 col-md-12">
+                                            <label class="form-label">Médico</label>
+                                            <select class="form-select" name="medical-type" id="medical-team" required>
+                                                <option value="" selected disabled>Seleccione un Médico</option>
+                                                {% for medicalTeam in medicalTeams %}
+                                                    <option value="{{ medicalTeam.id }}"> {{ medicalTeam.rut }} - {{ medicalTeam.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12">
+                                            <label class="form-label">Función</label>
+                                            <select class="form-select" name="function-type" id="function-type" required>
+                                                <option value="" selected disabled>Primero debe Seleccionar un Medico</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-3">
+                            <input type="submit" class="btn btn-success" value="Subir Documento">
+                        </div>
+                    </form>
+
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+
+    <div class=" p-4">
+        <div class="card card-dashed border-2">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Madre</th>
+                            <th>Fecha Inicio</th>
+                            <th>Estado Actual</th>
+                            <th>Semanas Gestacionales</th>
+                            <th>Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for birth in births %}
+                            <tr>
+                                <td>{{ birth.id }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No hay nacimientos registrados</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $(document).ready(function () {
+            $("#mother, #room, #phase-type, #birth-type, #medical-team, #function-type").select2(
+                {
+                    dropdownParent: $("#kt_modal_create_app"),
+                    placeholder: "Seleccione una Madre",
+                    allowClear: true
+                }
+            )
+        })
+
+        $(document).on('change', '#medical-team', function () {
+
+            let id = $(this).val();
+
+            if (id) {
+                $.ajax({
+                    url: "{{ path('search_participation_type_by_medical') }}",
+                    type: "POST",
+                    data: {
+                        id: id,
+                    },
+                    success: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+
+        })
+
+    </script>
+
 {% endblock %}

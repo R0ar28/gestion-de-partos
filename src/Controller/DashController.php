@@ -13,7 +13,7 @@ final class DashController extends AbstractController
     public function index(): Response
     {
 
-       return $this->redirectToRoute('app_document');
+       return $this->redirectToRoute('app_birth');
 
     }
 }

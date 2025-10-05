@@ -51,10 +51,17 @@ class Birth
     #[ORM\ManyToOne(inversedBy: 'births')]
     private ?User $entityUser = null;
 
+    /**
+     * @var Collection<int, BirthPhase>
+     */
+    #[ORM\OneToMany(targetEntity: BirthPhase::class, mappedBy: 'birth')]
+    private Collection $birthPhases;
+
     public function __construct()
     {
         $this->complicationBirths = new ArrayCollection();
         $this->babies = new ArrayCollection();
+        $this->birthPhases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +221,36 @@ class Birth
     public function setEntityUser(?User $entityUser): static
     {
         $this->entityUser = $entityUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BirthPhase>
+     */
+    public function getBirthPhases(): Collection
+    {
+        return $this->birthPhases;
+    }
+
+    public function addBirthPhase(BirthPhase $birthPhase): static
+    {
+        if (!$this->birthPhases->contains($birthPhase)) {
+            $this->birthPhases->add($birthPhase);
+            $birthPhase->setBirth($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBirthPhase(BirthPhase $birthPhase): static
+    {
+        if ($this->birthPhases->removeElement($birthPhase)) {
+            // set the owning side to null (unless already changed)
+            if ($birthPhase->getBirth() === $this) {
+                $birthPhase->setBirth(null);
+            }
+        }
 
         return $this;
     }

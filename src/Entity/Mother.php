@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MotherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MotherRepository::class)]
@@ -41,6 +42,12 @@ class Mother
      */
     #[ORM\OneToMany(targetEntity: Birth::class, mappedBy: 'mother')]
     private Collection $births;
+
+    #[ORM\ManyToOne(inversedBy: 'mothers')]
+    private ?User $entityUser = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $birthDate = null;
 
     public function __construct()
     {
@@ -162,6 +169,30 @@ class Mother
                 $birth->setMother(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntityUser(): ?User
+    {
+        return $this->entityUser;
+    }
+
+    public function setEntityUser(?User $entityUser): static
+    {
+        $this->entityUser = $entityUser;
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTime
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTime $birthDate): static
+    {
+        $this->birthDate = $birthDate;
 
         return $this;
     }

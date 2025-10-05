@@ -1,20 +1,237 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MotherController!{% endblock %}
+{% block title %}Mantenedor Madres{% endblock %}
+
+{% set motherActive = 'active' %}
+
+{% block breadBottom %}
+    <button class="btn btn-secondary" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_create_app"><i class="fas fa-plus"></i> Agregar Madre
+    </button>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="modal fade" id="kt_modal_create_app" tabindex="-1" style="display: none;" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-900px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div class="modal-header">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ianalytics/ClasesInacap/IngenieriaSoftware/gestion-de-partos/src/Controller/MotherController.php</code></li>
-        <li>Your template at <code>/home/ianalytics/ClasesInacap/IngenieriaSoftware/gestion-de-partos/templates/mother/index.html.twig</code></li>
-    </ul>
-</div>
+                    <h2>Nuevo Registro Madre</h2>
+
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                      transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                      transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="modal-body  ">
+
+                    <form role="form" id="uploadForm" action="{{ path('app_mother_new') }}"
+                          method="POST" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                <div class="card card-dashed p-3 mb-3">
+                                    <div class="text-center">
+                                        <h5> Datos de la Madre</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="dni" class="form-label">Rut</label>
+                                            <input class="form-control" id="dni" type="text" required>
+                                            <input type="hidden" id="dniHidden" name="rut">
+                                            <div id="rutError" class="text-danger small mt-1" style="display:none;"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="name" class="form-label">Nombre de la Madre</label>
+                                            <input class="form-control" id="name" name="name" type="text" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="birthdate" class="form-label">Fecha de Nacimiento</label>
+                                            <input class="form-control" id="birthdate" name="birthDate" type="date"
+                                                   required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="address" class="form-label">Dirección</label>
+                                            <input class="form-control" id="address" name="address" type="text"
+                                                   required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label for="emergencyContact" class="form-label">Contacto de
+                                                Emergencia</label>
+                                            <input class="form-control" id="emergencyContact" name="emergencyContact"
+                                                   type="text" required>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-3">
+                            <input type="submit" class="btn btn-success" id="register-mother" value="Registrar Madre">
+                        </div>
+                    </form>
+
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+    <div class=" p-4">
+        <div class="card card-dashed border-2">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Rut</th>
+                            <th>Contacto de Emergencia</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for mother in mothers %}
+                            <tr>
+                                <td>{{ mother.id }}</td>
+                                <td>{{ mother.name }}</td>
+                                <td>{{ mother.rut }}</td>
+                                <td>{{ mother.emergencyContact }}</td>
+                                <td>{{ mother.birthDate|date('Y-m-d') }} <span
+                                        class="text-muted">Usuario Responsable{{ mother.entityUser }}</span></td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No hay nacimientos registrados</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        function validateAndFormatRut(inputSelector, hiddenInputSelector, errorSelector) {
+            let rut = $(inputSelector).val().toUpperCase().replace(/[^0-9K]/g, '');
+            $(inputSelector).val(rut);
+            if (rut.length < 2) return;
+
+            // Formateado bonito con puntos en el input visible
+            let formattedRut = formatRut(rut);
+            $(inputSelector).val(formattedRut);
+
+            // Guardar limpio sin puntos pero con guion en el hidden
+            let rutConGuion = addGuion(rut);
+            $(hiddenInputSelector).val(rutConGuion);
+
+            let isValid = validateRut(rutConGuion);
+
+            console.log(rutConGuion);
+
+            if (isValid) {
+                $.ajax({
+                    url: '{{ path('mother_search_dni') }}',
+                    method: 'GET',
+                    data: {'dni': rutConGuion},
+                    success: function (response) {
+                        if (response.exist) {
+                            console.log('ya existe');
+                            $(errorSelector).text('El RUT ingresado ya existe.').show();
+                            $("#register-mother").prop('disabled', true)
+                        } else {
+                            console.log('no existe');
+                            $(errorSelector).text('').hide();
+                        }
+                    },
+                    error: function () {
+                        console.error('Error al verificar el RUT.');
+                    }
+                });
+            } else {
+                $(errorSelector).text('El RUT ingresado no es válido.').show();
+            }
+        }
+
+        function formatRut(rut) {
+            rut = rut.toUpperCase().replace(/[^0-9K]/g, '');
+            let cuerpo = rut.slice(0, -1);
+            let dv = rut.slice(-1);
+            return cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + dv;
+        }
+
+        function addGuion(rut) {
+            let cuerpo = rut.replace(/\./g, '').slice(0, -1);
+            let dv = rut.slice(-1);
+            return cuerpo + '-' + dv;
+        }
+
+        function validateRut(rut) {
+            rut = rut.replace(/\./g, "").replace("-", "").toUpperCase();
+
+            if (!/^\d{7,8}[0-9K]$/.test(rut)) {
+                return false;
+            }
+
+            let cuerpo = rut.slice(0, -1);
+            let dv = rut.slice(-1);
+            let suma = 0;
+            let multiplicador = 2;
+
+            for (let i = cuerpo.length - 1; i >= 0; i--) {
+                suma += parseInt(cuerpo[i]) * multiplicador;
+                multiplicador = multiplicador < 7 ? multiplicador + 1 : 2;
+            }
+
+            let resto = suma % 11;
+            let dvCalculado = 11 - resto;
+
+            if (dvCalculado === 11) dvCalculado = "0";
+            else if (dvCalculado === 10) dvCalculado = "K";
+            else dvCalculado = dvCalculado.toString();
+
+            return dv === dvCalculado;
+        }
+
+        // Evento en el input del RUT
+        $('#dni').on('input', function () {
+            validateAndFormatRut('#dni', '#dniHidden', '#rutError');
+        });
+
+
+    </script>
+
 {% endblock %}

@@ -1,0 +1,12 @@
+.title-background {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    display: inline-block !important;
+    padding: 10px 20px !important;
+    border-radius: 5px ;
+    color: white;
+}
+
+.title-background h1 {
+    color: white;
+    margin: 0;
+}

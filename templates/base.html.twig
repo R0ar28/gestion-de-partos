@@ -4,16 +4,16 @@
 
 <head>
     <base href="">
-    <title>Libreria IANSA | {{ titlePage|default('Bienvenido') }}  </title>
+    <title>Gestion de Partos | {{ titlePage|default('Bienvenido') }}  </title>
     <meta charset="utf-8"/>
-    <meta name="description" content="Maneja los documentos de forma eficiente "/>
-    <meta name="keywords" content="documentos, Iansa, gestión, archivos"/>
+    <meta name="description" content="Maneja los Partos de forma eficioente y segura "/>
+    <meta name="keywords" content="hospital, partos, gestión"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Libreria IANSA "/>
+    <meta property="og:title" content="Gestion Partos "/>
     <meta property="og:url" content="https://keenthemes.com/metronic"/>
-    <meta property="og:site_name" content="IANSA | IAnalytics"/>
+    <meta property="og:site_name" content="Gestion Partos | IAnalytics"/>
 
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
@@ -22,21 +22,15 @@
     <link href="{{ asset('plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('plugins/custom/datatables/datatables.bundle.css') }} " rel="stylesheet" type="text/css"/>
     <link href="{{ asset('plugins/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet"/>
-
+    <link href="{{ asset('css/gbirth.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
 
 
-    {% set headerImg = 'media/patterns/bannerHD.png' %}
-
-
+    {% set headerImg = 'media/patterns/img.png' %}
 
     {% set modeStyle = '' %}
-    {% set logoLab = 'images/logo.png' %}
-
-
-    <link href="{{ asset('css/iansaLab.css') }} " rel="stylesheet" type="text/css"/>
-
+    {% set logo = 'images/logo_color.png' %}
 
     {% block stylesheets %}
 
@@ -82,8 +76,8 @@
                     <!--begin::Header Logo-->
                     <div class="header-logo me-5 me-md-8 flex-grow-1 flex-lg-grow-0">
                         <a href="{{ path('app_dash') }}">
-                            <img alt="Logo" src="{{ asset(logoLab) }}" class="logo-default h-50px"/>
-                            <img alt="Logo" src="{{ asset(logoLab) }}" class="logo-sticky h-50px"/>
+                            <img alt="Logo" src="{{ asset(logo) }}" class="logo-default h-70px"/>
+                            <img alt="Logo" src="{{ asset(logo) }}" class="logo-sticky h-70px"/>
                         </a>
                     </div>
 
@@ -104,17 +98,16 @@
                                     <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
                                          class="menu-item here show menu-lg-down-accordion me-lg-1">
                                         <div class="menu-item">
-                                            <a class="menu-link {{ documentActive|default('') }} py-3"
-                                               href="{{ path('app_document') }}">
-                                                <span class="menu-title">Documentos</span>
+                                            <a class="menu-link {{ partyActive|default('') }} py-3"
+                                               href="{{ path('app_birth') }}">
+                                                <span class="menu-title">Partos</span>
                                             </a>
                                         </div>
 
-
                                         <div class="menu-item">
-                                            <a class="menu-link {{ partyActive|default('') }} py-3"
-                                               href="{{ path('app_party') }}">
-                                                <span class="menu-title">Entidad</span>
+                                            <a class="menu-link {{ motherActive|default('') }} py-3"
+                                               href="{{ path('app_mother') }}">
+                                                <span class="menu-title">Madres</span>
                                             </a>
                                         </div>
 
@@ -136,27 +129,12 @@
 
                                                 <div class="menu-item">
                                                     <a class="menu-link  py-3"
-                                                       href="{{ path('app_document_type') }}">
+                                                       href="#">
 
                                                         <span class="menu-title"> Tipo de Documento</span>
                                                     </a>
                                                 </div>
 
-                                                <div class="menu-item">
-                                                    <a class="menu-link  py-3"
-                                                       href="{{ path('app_document_type') }}">
-
-                                                        <span class="menu-title"> Tipo de Entidad</span>
-                                                    </a>
-                                                </div>
-
-                                                <div class="menu-item">
-                                                    <a class="menu-link  py-3"
-                                                       href="{{ path('app_document_type') }}">
-
-                                                        <span class="menu-title"> Tipo de Identificación</span>
-                                                    </a>
-                                                </div>
 
 
                                             </div>
@@ -285,7 +263,7 @@
 
                         <div class="page-title d-flex flex-column me-3">
 
-                            <h1 class="d-flex text-white fw-bolder my-1 fs-3">{% block title %} {% endblock %} </h1>
+                            <h1 class="d-flex text-white fw-bolder my-1 fs-3 title-background">{% block title %} {% endblock %} </h1>
 
                             <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
 

@@ -75,6 +75,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Birth::class, mappedBy: 'entityUser')]
     private Collection $births;
 
+    /**
+     * @var Collection<int, BirthPhase>
+     */
+    #[ORM\OneToMany(targetEntity: BirthPhase::class, mappedBy: 'entityUser')]
+    private Collection $birthPhases;
+
+    /**
+     * @var Collection<int, Mother>
+     */
+    #[ORM\OneToMany(targetEntity: Mother::class, mappedBy: 'entityUser')]
+    private Collection $mothers;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -90,6 +102,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->babies = new ArrayCollection();
         $this->medicalTeams = new ArrayCollection();
         $this->births = new ArrayCollection();
+        $this->birthPhases = new ArrayCollection();
+        $this->mothers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -379,4 +393,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, BirthPhase>
+     */
+    public function getBirthPhases(): Collection
+    {
+        return $this->birthPhases;
+    }
+
+    public function addBirthPhase(BirthPhase $birthPhase): static
+    {
+        if (!$this->birthPhases->contains($birthPhase)) {
+            $this->birthPhases->add($birthPhase);
+            $birthPhase->setEntityUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBirthPhase(BirthPhase $birthPhase): static
+    {
+        if ($this->birthPhases->removeElement($birthPhase)) {
+            // set the owning side to null (unless already changed)
+            if ($birthPhase->getEntityUser() === $this) {
+                $birthPhase->setEntityUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mother>
+     */
+    public function getMothers(): Collection
+    {
+        return $this->mothers;
+    }
+
+    public function addMother(Mother $mother): static
+    {
+        if (!$this->mothers->contains($mother)) {
+            $this->mothers->add($mother);
+            $mother->setEntityUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMother(Mother $mother): static
+    {
+        if ($this->mothers->removeElement($mother)) {
+            // set the owning side to null (unless already changed)
+            if ($mother->getEntityUser() === $this) {
+                $mother->setEntityUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
